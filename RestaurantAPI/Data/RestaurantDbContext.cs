@@ -17,9 +17,7 @@ namespace RestaurantAPI.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Restaurant>()
-                .Property(r => r.Name)
-                .IsRequired()
-                .HasMaxLength(25);
+                .Property(r => r.Name);
             modelBuilder.Entity<Dish>()
                 .Property(r => r.Name)
                 .IsRequired();
