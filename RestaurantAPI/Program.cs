@@ -1,3 +1,5 @@
+using NLog;
+using NLog.Web;
 using RestaurantAPI.Data;
 using RestaurantAPI.Service;
 
@@ -9,6 +11,8 @@ namespace RestaurantAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            logger.Debug("init main");
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -16,6 +20,9 @@ namespace RestaurantAPI
             builder.Services.AddScoped<RestaurantSeeder>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
 
             var app = builder.Build();
 
