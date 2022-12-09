@@ -1,7 +1,10 @@
-﻿namespace RestaurantAPI.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RestaurantAPI.Entities
 {
     public class Restaurant
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
