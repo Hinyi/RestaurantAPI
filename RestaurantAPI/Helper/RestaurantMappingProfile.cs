@@ -24,6 +24,8 @@ namespace RestaurantAPI.Helper
             CreateMap<UpdateRestaurantDto, Restaurant>();
             CreateMap<CreateDishDto, Dish>();
 
+            CreateMap<RegisterUserDto, User>();
+
         }
     }
 }
