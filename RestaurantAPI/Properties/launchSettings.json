@@ -2,7 +2,6 @@
   "profiles": {
     "RestaurantAPI": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "api/restaurant",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

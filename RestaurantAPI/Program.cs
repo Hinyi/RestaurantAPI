@@ -1,6 +1,7 @@
 using NLog;
 using NLog.Web;
 using RestaurantAPI.Data;
+using RestaurantAPI.Middleware;
 using RestaurantAPI.Service;
 
 namespace RestaurantAPI
@@ -20,6 +21,10 @@ namespace RestaurantAPI
             builder.Services.AddScoped<RestaurantSeeder>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+            builder.Services.AddScoped<IDishService, DishService>();
+            builder.Services.AddScoped<ErrorHandlingMiddleware>();
+            builder.Services.AddScoped<RequestTimeMiddleware>();
+            builder.Services.AddSwaggerGen();
 
             builder.Logging.ClearProviders();
             builder.Host.UseNLog();
@@ -29,12 +34,19 @@ namespace RestaurantAPI
             // Configure the HTTP request pipeline.
 
             //SeedDatabase();
-            
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<RequestTimeMiddleware>();
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant API");
+            });
 
+            app.UseAuthorization();
+            app.UseStaticFiles();
 
             app.MapControllers();
 
