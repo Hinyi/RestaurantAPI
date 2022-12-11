@@ -22,6 +22,8 @@ namespace RestaurantAPI.Data
             modelBuilder.Entity<Dish>()
                 .Property(r => r.Name)
                 .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(r => r.FirstName);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
