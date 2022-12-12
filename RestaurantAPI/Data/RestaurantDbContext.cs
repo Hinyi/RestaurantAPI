@@ -12,6 +12,7 @@ namespace RestaurantAPI.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,9 @@ namespace RestaurantAPI.Data
                 .IsRequired();
             modelBuilder.Entity<User>()
                 .Property(r => r.FirstName);
+            modelBuilder.Entity<Role>()
+                .Property(u => u.Name)
+                .IsRequired();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
