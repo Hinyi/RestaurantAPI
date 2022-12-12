@@ -4,7 +4,8 @@ namespace RestaurantAPI.Entities;
 
 public class Dish
 {
-    [Key] public int Id { get; set; }
+    [Key] 
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
