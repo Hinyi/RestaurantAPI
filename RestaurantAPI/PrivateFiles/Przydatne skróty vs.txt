@@ -1,0 +1,9 @@
+Quick Actions: (Alt + Enter), (Ctrl + .) or (Ctrl + ;)
+Go To Implementation: (Ctrl + F12) or (Ctrl + Left click)
+Go To: (Ctrl + ,) or (Ctrl + T)
+Format Document: (Ctrl + E, D) (Ctrl + E, f) (ctrl+e , ctrl + c)
+Moving whole lines: (Alt + Up Arrow) or (Alt + Down Arrow)
+Show IntelliSense: (Ctrl + J)
+Show overloads: (Ctrl + Shift + Space)
+Ctrl + Alt + mouse: wiele lini 
+ctrl + d - kopiowanie linii

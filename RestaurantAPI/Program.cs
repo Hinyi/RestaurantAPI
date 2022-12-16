@@ -78,12 +78,24 @@ namespace RestaurantAPI
             builder.Logging.ClearProviders();
             builder.Host.UseNLog();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("FrontEndClient", policy =>
+                    policy.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        //.WithOrigins(builder.Configuration["AllowedOrigins"])
+                        .AllowAnyOrigin()
+                    );
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
 
             SeedDatabase();
 
+            app.UseStaticFiles();
+            app.UseCors("FrontEndClient");
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<RequestTimeMiddleware>();
             app.UseAuthentication();
