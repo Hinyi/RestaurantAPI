@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,22 +12,27 @@ namespace RestaurantAPI.Controllers
 {
     [Route("api/restaurant")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RestaurantController : Controller
     {
         private readonly IRestaurantService _restaurantService;
+        private readonly ILogger<RestaurantService> _logger;
+        private readonly IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
 
-        public RestaurantController(IRestaurantService restaurantService, IMapper mapper)
+        public RestaurantController(IRestaurantService restaurantService, IMapper mapper, ILogger<RestaurantService> logger
+            , IAuthorizationService authorizationService)
         {
             _restaurantService = restaurantService;
+            _logger = logger;
+            _authorizationService = authorizationService;
         }
 
         [HttpGet]
-        [Authorize(Policy = "Atleast20")]
-        public ActionResult<IEnumerable<Restaurant>> GetAll()
+        //[Authorize(Policy = "Atleast2restaurants")]
+        public ActionResult<IEnumerable<Restaurant>> GetAll([FromQuery]RestaurantQuery query)
         {
-            var restaurantDtos = _restaurantService.GetAll();
+            var restaurantDtos = _restaurantService.GetAll(query);
 
 
             return Ok(restaurantDtos);
@@ -45,6 +51,7 @@ namespace RestaurantAPI.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
+            
             var id = _restaurantService.Create(dto);
 
             return Created($"/api/restaurant/{id}", null);
@@ -62,6 +69,7 @@ namespace RestaurantAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult Update([FromRoute] int id, [FromBody] UpdateRestaurantDto dto)
         {
+
            _restaurantService.Update(id, dto);
 
             return NoContent();
