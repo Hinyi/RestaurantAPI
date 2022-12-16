@@ -69,6 +69,8 @@ namespace RestaurantAPI
             builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
             builder.Services.AddScoped<IUserContextService, UserContextService>();
             builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddScoped<IValidator<RestaurantQuery>, RestaurantQueryValidator>();
             builder.Services.AddScoped<ErrorHandlingMiddleware>();
             builder.Services.AddScoped<RequestTimeMiddleware>();
             builder.Services.AddSwaggerGen();
