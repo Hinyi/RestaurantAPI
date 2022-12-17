@@ -3,6 +3,7 @@ on:
     branches: [pipeline, Work, some_fixes]
   pull_request:
     branches:
+      - master
       - pipeline
       - Work
       - some_fixes
