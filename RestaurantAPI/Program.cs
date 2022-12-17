@@ -30,7 +30,7 @@ namespace RestaurantAPI
 
             var authenticationSettings = new AuthenticationSettings();
             builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
-            builder.Services.AddSingleton(authenticationSettings)
+            builder.Services.AddSingleton(authenticationSettings);
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "Bearer";
