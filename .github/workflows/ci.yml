@@ -1,10 +1,11 @@
 on:
   push:
-    branches: [pipeline, Work]
+    branches: [pipeline, Work, some_fixes]
   pull_request:
     branches:
       - pipeline
       - Work
+      - some_fixes
   workflow_dispatch:
   
 jobs:
