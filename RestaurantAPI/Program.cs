@@ -28,9 +28,9 @@ namespace RestaurantAPI
             logger.Debug("init main");
             // Add services to the container.
 
-            //var authenticationSettings = new AuthenticationSettings();
+            var authenticationSettings = new AuthenticationSettings();
             builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
-            builder.Services.AddSingleton(authenticationSettings)
+            builder.Services.AddSingleton(authenticationSettings);
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "Bearer";
