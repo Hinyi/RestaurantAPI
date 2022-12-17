@@ -13,6 +13,7 @@ using RestaurantAPI.Models.Validators;
 using RestaurantAPI.Service;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Authorization;
 
 namespace RestaurantAPI
@@ -49,7 +50,10 @@ namespace RestaurantAPI
 
             builder.Services.AddControllers().AddFluentValidation();
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<RestaurantDbContext>();
+
+            builder.Services.AddDbContext<RestaurantDbContext>
+                (options => options.UseSqlServer(builder.Configuration.GetConnectionString("RestaurantDbConnection")));
+
             builder.Services.AddScoped<RestaurantSeeder>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
@@ -78,12 +82,25 @@ namespace RestaurantAPI
             builder.Logging.ClearProviders();
             builder.Host.UseNLog();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("FrontEndClient", policy =>
+                    policy.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        //.WithOrigins(builder.Configuration["AllowedOrigins"])
+                        .AllowAnyOrigin()
+                    );
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
 
             SeedDatabase();
 
+            app.UseResponseCaching();
+            app.UseStaticFiles();
+            app.UseCors("FrontEndClient");
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<RequestTimeMiddleware>();
             app.UseAuthentication();

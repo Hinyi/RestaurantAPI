@@ -5,9 +5,10 @@ namespace RestaurantAPI.Data
 {
     public class RestaurantDbContext : DbContext
     {
-        private string _connectionString =
-            "Data Source=DESKTOP-ODOFPG3\\MYSSQLSERVER;Initial Catalog=RestaurantAPI;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
+        public RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) : base(options)
+        {
+            
+        }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Dish> Dishes { get; set; }
@@ -28,13 +29,6 @@ namespace RestaurantAPI.Data
             modelBuilder.Entity<Role>()
                 .Property(u => u.Name)
                 .IsRequired();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(_connectionString);
         }
     }
 }
